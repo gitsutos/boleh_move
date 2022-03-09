@@ -1,0 +1,1 @@
+export const primary = "#000B1B"
