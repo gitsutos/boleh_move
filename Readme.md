@@ -1,9 +1,2 @@
-# NativeBase Expo Template
-
-The official NativeBase template for [Expo](https://docs.expo.io/)
-
-## Usage
-
-```sh
-expo init my-app --template @native-base/expo-template
-```
+# Boleh move 
+  an geo location app for special needed
