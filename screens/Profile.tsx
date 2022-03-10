@@ -13,7 +13,6 @@ const Profile = () => {
       <Box style={{ margin: 20 }}>
         <Button
           onPress={() => dispatch(SIGN_OUT())}
-          variant={"outline"}
           title="Log Out"
           color={"rgb(160,0,0)"}
         />
@@ -23,7 +22,7 @@ const Profile = () => {
 };
 let css = StyleSheet.create({
   container: {
-    color: "red",
+    color: "rgb(255,0,0)",
   },
 });
 export default Profile;

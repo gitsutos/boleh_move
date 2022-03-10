@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { StyleSheet, KeyboardAvoidingView, Platform } from "react-native";
+import { StyleSheet, KeyboardAvoidingView, Platform, TextInput } from "react-native";
 import {
   Button,
   FormControl,
@@ -99,25 +99,25 @@ const SignUp = ({ navigation }) => {
           </FormControl>
           <FormControl isRequired style={css.input}>
             <FormControl.Label>Password</FormControl.Label>
-            <Input
+            <TextInput
               keyboardType="visible-password"
               placeholder="password"
-              {...input_props}
-              type="password"
+              style={css.passwordInput}
+              secureTextEntry={true}
               value={password}
               onChangeText={setPassword}
-            ></Input>
+            ></TextInput>
           </FormControl>
           <FormControl isRequired style={css.input}>
             <FormControl.Label>Type password again</FormControl.Label>
-            <Input
+            <TextInput
               keyboardType="visible-password"
+              style={css.passwordInput}
+              secureTextEntry={true}
               placeholder="Password again"
-              {...input_props}
-              type="password"
               onChangeText={setRePassword}
               value={rePassword}
-            ></Input>
+            ></TextInput>
           </FormControl>
           <HStack w={"100%"} style={{ justifyContent: "space-evenly" }}>
             <Button
@@ -175,6 +175,14 @@ const css = StyleSheet.create({
   },
   input: {
     paddingBottom: 25,
+  },
+  passwordInput: {
+    color: "black",
+    backgroundColor: "#9995",
+    height: 40,
+    borderRadius: 3,
+    padding: 5,
+    paddingBottom: 10
   },
   contentContainer: {
     height: "100%",

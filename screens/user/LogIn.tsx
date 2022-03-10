@@ -67,6 +67,7 @@ const LogIn = ({ navigation }) => {
             keyboardType="visible-password"
             placeholder="password"
             {...input_props}
+            secureTextEntry={true}
             type="password"
             value={password}
             onChangeText={setPassword}
