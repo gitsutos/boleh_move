@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { auth } from "../firebase";
 
 import { StyleSheet, Button } from "react-native";
-import { SIGN_OUT } from "../store/actions/users-action";
+import { SIGN_OUT } from "../store/actions/users.actions";
 import { useDispatch } from "react-redux";
 
 const Profile = () => {

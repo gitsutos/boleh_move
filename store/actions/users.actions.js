@@ -1,5 +1,5 @@
 import { auth, provider } from "../../firebase";
-import { ADD_AUTH_ERROR } from "./error-actions";
+import { ADD_AUTH_ERROR } from "./error.actions";
 import store from "..";
 
 export const LOGIN = (email, password) => {
@@ -20,9 +20,9 @@ export const LOGIN = (email, password) => {
   };
 };
 
-export const SIGN_UP = (email: string, password: string, username: string) => {
-  let user: Object;
-  return async (dispatch: any) => {
+export const SIGN_UP = (email, password, username) => {
+  let user;
+  return async (dispatch) => {
     await auth
       .createUserWithEmailAndPassword(email, password)
       .then(async (userCredential) => {
@@ -31,7 +31,7 @@ export const SIGN_UP = (email: string, password: string, username: string) => {
           .updateProfile({
             displayName: username,
           })
-          .then((suc) => {})
+          .then((suc) => { })
           .catch((error) => {
             console.log(error.message);
           });
@@ -47,8 +47,8 @@ export const SIGN_UP = (email: string, password: string, username: string) => {
 };
 
 export const SIGN_UP_GOOGLE = () => {
-  let user: Object;
-  return async (dispatch: any) => {
+  let user;
+  return async (dispatch) => {
     await auth
       .signInWithPopup(provider)
       .then((userCredential) => {

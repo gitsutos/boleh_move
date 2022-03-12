@@ -3,7 +3,7 @@ import { StyleSheet, KeyboardAvoidingView, Platform } from "react-native";
 import { Button, Text, FormControl, Input, VStack, HStack } from "native-base";
 
 import validator from "validator";
-import { LOGIN, SIGN_UP_GOOGLE } from "../../store/actions/users-action";
+import { LOGIN, SIGN_UP_GOOGLE } from "../../store/actions/users.actions";
 import { auth } from "../../firebase";
 import Icon from "react-native-vector-icons/FontAwesome";
 

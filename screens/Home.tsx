@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from "react";
-import { Alert, StyleSheet, View, Linking } from "react-native";
+import { Alert, StyleSheet, View, Linking, Platform } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
 import Map from "../components/Map";
@@ -17,24 +17,35 @@ function OpenURLButton({ url, children, color }) {
   }, [url]);
 
   return (
-    <Button color={color} onPress={handlePress}>
+    <Button
+      variant={Platform.OS === "ios" ? "ghost" : "solid"}
+      color={color}
+      onPress={handlePress}
+    >
       {children}
     </Button>
   );
 }
 
-const Home = () => {
+const Home = ({ navigation }) => {
   return (
     <View>
       <StatusBar style="dark" />
       <VStack style={css.container}>
         <Map />
         <HStack>
-          <View style={css.buttons}>
-            <Button onPress={() => {}} color="rgb(250,0,190)">
-              NEED HELP
-            </Button>
-          </View>
+          {Platform.OS !== "ios" ? (
+            <View style={css.buttons}>
+              <Button
+                onPress={() => {
+                  navigation.navigate("HelpReport");
+                }}
+                color="rgb(250,0,190)"
+              >
+                NEED HELP
+              </Button>
+            </View>
+          ) : null}
           <View style={css.buttons}>
             <OpenURLButton
               url="https://mysprsemak.spr.gov.my/semakan/daftarPemilih"

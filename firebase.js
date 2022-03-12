@@ -34,6 +34,7 @@ auth.onAuthStateChanged((user) => {
 });
 export { auth };
 export const database = firebase.database();
+export const dbRef = database.ref()
 
 // Create a storage reference from our storage service
 

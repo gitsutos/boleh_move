@@ -8,9 +8,14 @@ import HelpReport from "../screens/HelpReport";
 import Profile from "../screens/Profile";
 import { auth } from "../firebase";
 import { useSelector } from "react-redux";
+import DriverDetailsPage from "../screens/DriverDetails";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Platform, PlatformColor } from "react-native";
 
-const Tab = createBottomTabNavigator();
-
+let Tab = createNativeStackNavigator();
+if (Platform.OS == "ios") {
+  Tab = createBottomTabNavigator()
+}
 const HomeNavigator = ({ navigation }) => {
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -62,6 +67,17 @@ const HomeNavigator = ({ navigation }) => {
         }}
         component={Profile}
         name="Profile"
+      />
+      <Tab.Screen
+        name="DriverDetailsNavigation"
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <Icon name="heart" color={focused ? "#006CA9" : color} size={size} />
+          ),
+          title: "Driver Details",
+          headerBlurEffect: "light",
+        }}
+        component={DriverDetailsPage}
       />
     </Tab.Navigator>
   );

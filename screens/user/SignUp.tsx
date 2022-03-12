@@ -1,5 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
-import { StyleSheet, KeyboardAvoidingView, Platform, TextInput } from "react-native";
+import {
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+  TextInput,
+} from "react-native";
 import {
   Button,
   FormControl,
@@ -13,10 +18,13 @@ import {
 
 import Icon from "react-native-vector-icons/FontAwesome";
 import validator from "validator";
-import { SIGN_UP, SIGN_UP_GOOGLE } from "../../store/actions/users-action";
+import { SIGN_UP, SIGN_UP_GOOGLE } from "../../store/actions/users.actions";
+
+import { auth } from "../../firebase";
 
 import { AlertBox } from "../../components/reusable";
 import { useDispatch, useSelector } from "react-redux";
+import PopOver from "../../components/PopOver";
 
 const input_props = {
   backgroundColor: "coolGray.300",
@@ -28,12 +36,15 @@ const SignUp = ({ navigation }) => {
   const dispatch = useDispatch();
   const auth_error = useSelector((state) => state.error.auth);
 
+  // start State variables
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [rePassword, setRePassword] = useState("");
   const [Loading, setLoading] = useState(false);
   const [error, setError] = useState([false, ""]);
+  const [popUpOpen, setPopUpOpen] = useState(false);
+  // end
 
   useEffect(() => {
     if (!validator.isEmail(emailAddress) && emailAddress) {
@@ -51,8 +62,17 @@ const SignUp = ({ navigation }) => {
     setLoading(true);
     await dispatch(SIGN_UP(emailAddress, password, username));
     setLoading(false);
+    setPopUpOpen(true);
   };
-
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        // navigation.replace("");
+        setPopUpOpen(true);
+      }
+    });
+    return unsubscribe;
+  }, []);
   return (
     <ScrollView>
       <KeyboardAvoidingView
@@ -68,6 +88,11 @@ const SignUp = ({ navigation }) => {
             justifyContent: "center",
           }}
         >
+          <PopOver
+            navigation={navigation}
+            isOpen={popUpOpen}
+            onClose={() => setPopUpOpen(false)}
+          />
           <VStack>
             {error[0] && error[1] ? (
               <AlertBox status="error">{error[1]}</AlertBox>
@@ -100,24 +125,22 @@ const SignUp = ({ navigation }) => {
           <FormControl isRequired style={css.input}>
             <FormControl.Label>Password</FormControl.Label>
             <TextInput
-              keyboardType="visible-password"
-              placeholder="password"
-              style={css.passwordInput}
+              placeholder="Password"
               secureTextEntry={true}
-              value={password}
+              style={css.passwordInput}
               onChangeText={setPassword}
-            ></TextInput>
+              value={password}
+            />
           </FormControl>
           <FormControl isRequired style={css.input}>
             <FormControl.Label>Type password again</FormControl.Label>
             <TextInput
-              keyboardType="visible-password"
-              style={css.passwordInput}
+              placeholder="again Password"
               secureTextEntry={true}
-              placeholder="Password again"
+              style={css.passwordInput}
               onChangeText={setRePassword}
               value={rePassword}
-            ></TextInput>
+            />
           </FormControl>
           <HStack w={"100%"} style={{ justifyContent: "space-evenly" }}>
             <Button
@@ -125,7 +148,7 @@ const SignUp = ({ navigation }) => {
               size="lg"
               isLoading={Loading}
               colorScheme="success"
-              variant={"subtle"}
+              variant="outline"
               onPress={handleSIgnUp}
             >
               Register
@@ -182,7 +205,7 @@ const css = StyleSheet.create({
     height: 40,
     borderRadius: 3,
     padding: 5,
-    paddingBottom: 10
+    paddingBottom: 10,
   },
   contentContainer: {
     height: "100%",

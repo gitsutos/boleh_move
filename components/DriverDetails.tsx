@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Avatar } from "native-base";
+import { Avatar, Box, Text } from "native-base";
 
 import { useSelector } from "react-redux";
 import DetailBox from "./DetailBox";
@@ -10,16 +10,27 @@ function randInteger(min, max) {
 }
 
 const DriverDetails = () => {
-  const volunteers = useSelector((state) => state.user);
-  //   console.log(volunteers.length);
-  let randChoice = randInteger(0, volunteers.length - 1);
-  randChoice = volunteers[randChoice];
-  //   console.log(randChoice.volunteer_name[1]);
-
   return (
     <View style={css.parent}>
-      <Avatar size={80} source={require("../assets/photos/dp_sample.png")} />
-      <DetailBox volunteer={randChoice} />
+      <Box
+        style={{
+          flexWrap: "wrap",
+          margin: 15,
+          borderRadius: 20,
+          backgroundColor: "#874646",
+          width: "100%",
+          alignItems: "center",
+          justifyContent: "center",
+          borderColor: "#000",
+          borderWidth: 5,
+          height: 40,
+        }}
+      >
+        <Text style={{ fontSize: 24, color: "white" }}>
+          All set ! Your rider is on the way
+        </Text>
+      </Box>
+      <DetailBox />
     </View>
   );
 };

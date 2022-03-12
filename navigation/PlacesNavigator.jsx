@@ -5,6 +5,8 @@ import { Provider } from "react-redux";
 import HomeNavigator from "./HomeNavigator";
 import AuthNavigator from "./AuthNavigator";
 
+import DriverDetails from "../screens/DriverDetails";
+
 import React, { useState } from "react";
 import store from "../store";
 
