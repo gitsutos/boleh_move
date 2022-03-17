@@ -37,6 +37,7 @@ const LogIn = ({ navigation }) => {
     setLoading(true);
     await dispatch(LOGIN(emailAddress, password));
     setLoading(false);
+    navigation.replace("HomeNavigation");
   };
   return (
     <KeyboardAvoidingView

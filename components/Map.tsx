@@ -1,7 +1,7 @@
 import { Button, Image, Skeleton, Spinner } from "native-base";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Alert } from "react-native";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 
 import * as Location from "expo-location";
 //REMOVE import * as Permissions from "expo-permissions";
@@ -9,6 +9,13 @@ import * as Location from "expo-location";
 const Map = () => {
   const [pikedLocation, setPikedLocation] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
+
+  let [MAP, setMAP] = useState(false);
+
+  useEffect(() => {
+    getLocationHandler();
+  }, []);
+
   const getLocationPermission = async () => {
     const result = await Location.getForegroundPermissionsAsync();
     if (result.status !== "granted") {
@@ -31,10 +38,10 @@ const Map = () => {
     try {
       const location = await Location.getCurrentPositionAsync();
       setPikedLocation({
-        lat: location.coords.latitude,
-        lng: location.coords.longitude,
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
       });
-      console.log(location);
+      setMAP(false);
     } catch (err) {
       console.log(err);
       Alert.alert("Could not fetch location!", "Please try again later", [
@@ -42,34 +49,25 @@ const Map = () => {
       ]);
     }
   };
-  let mapUrl;
-  if (pikedLocation) {
-    console.log("piked");
-    mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=Brooklyn+Bridge,New+York,NY&zoom=13&size=600x300&maptype=roadmap&markers=color:blue%7Clabel:S%7C40.702147,-74.015794&markers=color:green%7Clabel:G%7C40.711614,-74.012318&markers=color:red%7Clabel:C%7C40.718217,-73.998284&key=AIzaSyC9U31c4n3LRC0dCZSHBmujUaoU5hlTRI0`;
-  }
-
   return (
     <View style={css.map}>
-      {pikedLocation ? (
-        <Image
-          source={{
-            uri: mapUrl,
-          }}
-          alt="load"
-          style={{ alignSelf: "center", height: 300, width: 300 }}
-        />
-      ) : (
-        <Button variant={"ghost"} onPress={getLocationHandler}>
-          get location
-        </Button>
-      )}
+      <MapView
+        region={{
+          ...pikedLocation,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
+        style={{ width: "100%", height: "100%" }}
+      >
+        <Marker coordinate={pikedLocation} />
+      </MapView>
     </View>
   );
 };
 
 const css = StyleSheet.create({
   map: {
-    height: "75%",
+    height: "82%",
     width: "95%",
   },
 });
